@@ -6,14 +6,16 @@ int n;
 int v;
 int main(){
     cin >> n >> v;
-    dp[0][0] = 1;
     for (int i=0;i<n;i++) {
         cin >> val[i];
     }
+    for (int i = 0; i <= v; i++) {
+        dp[i][0] = 1;
+    }
     for (int i=1; i <= n; i++) {
         for (int j=1; j <= v; j++) {
-            dp[i][j] = dp[i-1][j] + dp[i-1][j-val[i]];
-            cout << j-val[i] << endl;;
+            if (j >= val[i-1])
+                dp[i][j] = dp[i-1][j] + dp[i][j-val[i-1]];
         }
     }
     cout << dp[n][v];
