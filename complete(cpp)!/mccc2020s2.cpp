@@ -2,8 +2,7 @@
 #include <vector>
 using namespace std;
 int grid[2001][2001];
-bool c[2001];
-bool r[2001];
+bool f;
 int n;
 int m;
 vector <string> actions;
@@ -21,8 +20,10 @@ int main(){
         }
     }
     for (int i = 0; i < n; i++) {
-        if (grid[0][i] == 1) {
-            r[i] = true;
+        if (grid[i][0] == 1) {
+            //r[i] = true;
+            string cur = "R " + to_string(i+1);
+            actions.push_back(cur);
             m++;
             for (int j = 0; j < n; j++) {
                 if (grid[i][j] == 1) {
@@ -33,23 +34,35 @@ int main(){
             }
         }
     }
-    // for (int i = 0; i < n; i++) {
-    //     if (grid[i][0] == 1) {
-    //         c[i] = true;
-    //         m++;
-    //         for (int j = 0; j < n; j++) {
-    //             if (grid[j][i] == 1) {
-    //                 grid[j][i] = 0;
-    //             } else {
-    //                 grid[j][i] = 1;
-    //             }
-    //         }
-    //     }
-    // }
+    for (int i = 0; i < n; i++) {
+        if (grid[0][i] == 1) {
+            string cur = "C " + to_string(i+1);
+            actions.push_back(cur);
+            m++;
+            for (int j = 0; j < n; j++) {
+                if (grid[j][i] == 1) {
+                    grid[j][i] = 0;
+                } else {
+                    grid[j][i] = 1;
+                }
+            }
+        }
+    }
     for (int i = 0;i < n; i++) {
-        cout << endl;
+        // cout << endl;
         for (int j = 0;j < n; j++) {
-            cout << grid[i][j] << " ";
+            // cout << grid[i][j] << " ";
+            if (grid[i][j] == 1) {
+                f = true;
+                cout << -1 << endl;
+                break;
+            }
+        }
+    }
+    if (f != true) { 
+        cout << m << endl;
+        for (int i = 0; i<m; i++) {
+            cout << actions.at(i) << endl;
         }
     }
     return 0;
