@@ -2,5 +2,6 @@
 using namespace std;
 
 int main() {
-    // i dont fucking know???
+    // will do this one day?
+    // might check out some solutions to be inspired :)
 }

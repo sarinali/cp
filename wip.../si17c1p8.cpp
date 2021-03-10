@@ -9,6 +9,7 @@ int main(){
     for (int i=0;i<n;i++) {
         cin >> val[i];
     }
+    // no clue rn ill come back one day tho
     // for (int i = 0; i <= v; i++) {
     //     dp[0][i] = 1;
     // }

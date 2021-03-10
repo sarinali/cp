@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string.h>
 using namespace std;
+// not too sure rn, will do this
 string s;
 int lc, mc, sc;
 int r, ans;
