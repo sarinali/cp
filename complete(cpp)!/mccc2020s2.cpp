@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+// prob could be more efficient :( 
+// ill think of something one day
 int grid[2001][2001];
 bool f;
 int n;
@@ -21,7 +23,6 @@ int main(){
     }
     for (int i = 0; i < n; i++) {
         if (grid[i][0] == 1) {
-            //r[i] = true;
             string cur = "R " + to_string(i+1);
             actions.push_back(cur);
             m++;
@@ -49,9 +50,7 @@ int main(){
         }
     }
     for (int i = 0;i < n; i++) {
-        // cout << endl;
         for (int j = 0;j < n; j++) {
-            // cout << grid[i][j] << " ";
             if (grid[i][j] == 1) {
                 f = true;
                 cout << -1 << endl;
