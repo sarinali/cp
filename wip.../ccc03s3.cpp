@@ -1,9 +1,11 @@
 #include <iostream>
 #include <stack>
+#include <vector>
 using namespace std;
-int r, c;
+int r, c, rmcount;
 char rm[41][41];
-int a[6];
+// int a[6];
+vector<int> a;
 int vis[41][41];
 int dx[4] = {1, -1, 0, 0};
 int dy[4] = {0, 0, 1, -1};
@@ -26,7 +28,7 @@ void dfs(int y, int x) {
         for (int i= 0; i < 4; i++) {
             int newy = cy +dy[i];
             int newx = cx+dx[i];
-            if (newy >= 1 and newy <= r and newx <= c and newx >=1 and rm[newy][newx] != '#') {
+            if (newy >= 1 and newy <= r and newx <= c and newx >=1 and rm[newy][newx] != 'I') {
                 if (!vis[newy][newx]) {
                     queue.push(newx);
                     queue.push(newy);
@@ -35,11 +37,12 @@ void dfs(int y, int x) {
         }
     }
     // cout << ind<< endl;
-    a[ind] = cnt;
+    a.push_back(cnt);
     return;
 }
 int main() {
-    cin >> r >> c;
+    int x;
+    cin >> x >> r >> c;
     for (int i = 1; i <= r; i++) {
         for (int j =1; j<= c; j++) {
             cin >> rm[i][j];
@@ -47,12 +50,14 @@ int main() {
     }
     for (int i = 1; i <= r; i++) {
         for (int j =1; j<= c; j++) {
-            if (rm[i][j]!= '#' and !(vis[i][j])) {
+            if (rm[i][j]!= 'I' and !(vis[i][j])) {
+                rmcount++;
                 dfs(i, j);
             }
         }
     }
-    for (int i = 1; i<=5; i++) {
-        cout << a[i] << endl;
-    }
+    cout << rmcount << endl;
+    // for (int i = 1; i<=5; i++) {
+    //     cout << a[i] << endl;
+    // }
 }
