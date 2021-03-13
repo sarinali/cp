@@ -8,7 +8,7 @@ int vis[41][41];
 int dx[4] = {1, -1, 0, 0};
 int dy[4] = {0, 0, 1, -1};
 void bfs(int y, int x) {
-    int cnt, ind;
+    int cnt = 0; int ind = 0;
     list<int> queue;
     queue.push_back(y);
     queue.push_back(x);
@@ -22,32 +22,31 @@ void bfs(int y, int x) {
         for (int i= 0; i < 4; i++) {
             int newy = cy +dy[i];
             int newx = cx+dx[i];
-            if (newy > r or newy < 0 or newx > c or newx < 0 or rm[newy][newx]!= '#') {
-                continue;
-            } else {
+            if (newy >= 1 and newy <= r and newx <= c and newx >=1 and rm[newy][newx] != '#') {
                 if (!vis[newy][newx]) {
                     queue.push_back(newy);
                     queue.push_back(newx);
-                }
-                if (rm[newy][newx] != '.') {
-                    ind = (int)rm[newy][newx];
+                    if (rm[newy][newx] != '.') {
+                        ind = ((int)rm[newy][newx]) - '0';
+                    }
                 }
             }
         }
     }
-    a[ind] = cnt;
+    // cout << ind;
+    a[ind] = cnt-1;
     return;
 }
 int main() {
     cin >> r >> c;
-    for (int i = 0; i < r; i++) {
-        for (int j =0; i< c; j++) {
+    for (int i = 1; i <= r; i++) {
+        for (int j =1; j<= c; j++) {
             cin >> rm[i][j];
         }
     }
-    for (int i = 0; i < r; i++) {
-        for (int j =0; i< c; j++) {
-            if (rm[i][j]!= '#') {
+    for (int i = 1; i <= r; i++) {
+        for (int j =1; j<= c; j++) {
+            if (rm[i][j]!= '#' and !(vis[i][j])) {
                 bfs(i, j);
             }
         }
