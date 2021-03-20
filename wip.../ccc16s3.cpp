@@ -43,7 +43,6 @@ int main() {
         adj[x].insert(y);
         adj[y].insert(x);
     }
-    // cout << ar[5];
     int count;
     while (true) {
         count = n;
@@ -57,7 +56,6 @@ int main() {
                 if (ar[first] == false) {
                     adj[first].erase(i);
                     adj[i].erase(first);
-                    // cout << i << " " << first << endl;
                     count--;
                 }
             }
@@ -74,7 +72,7 @@ int main() {
     }    
     vis[newnode] = true;
     int diameter = dfs(newnode).second;
-    cout << diameter << endl;
+    // cout << diameter << endl;
     // for (int i = 0;i < n; i++) {
     //     cout << i << " ";
     //     set<int>::iterator it;
