@@ -23,5 +23,6 @@ public class coin10 {
 		 }
 		 int x = denom[n];
 		 System.out.println(x);
+		 sc.close();
 	 }
 }

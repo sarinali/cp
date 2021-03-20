@@ -24,6 +24,7 @@ public class vmss7wc16c2p2java {
             }else {
                 System.out.println(psa[y] - psa[x-1]);
             }
+            sc.close();
         }
     }
 }
