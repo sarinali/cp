@@ -69,7 +69,10 @@ int main() {
     //     if (count == n) {
     //         break;
     //     }
-    // } // asldkfjalskdjf doesnt work, too slow je pense
+    // } 
+    
+    // asldkfjalskdjf doesnt work, too slow je pense je vais fixer
+    // audjourd'hui
     vis[0] = true;
     int newnode = dfs(0).first;
     for (int i = 0; i < n; i++){
