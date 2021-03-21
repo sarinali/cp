@@ -10,7 +10,7 @@ int dis[100000];
 int nodecount;
 set<int> adj[100000];
 void check() {
-    
+
 }
 pi dfs(int node) {
     pi max = make_pair(node, 0);
@@ -50,26 +50,26 @@ int main() {
         adj[y].insert(x);
     }
     int count;
-    while (true) {
-        count = n;
-        for (int i= 0; i < n; i++) {
-            if (adj[i].size() == 1 && ar[i] == false) {
-                set<int>::iterator it;
-                int first;
-                for (it = adj[i].begin(); it != adj[i].end(); it++){
-                    first = *it;
-                }
-                // if (ar[first] == false) {
-                adj[first].erase(i);
-                adj[i].erase(first);
-                count--;
-                // }
-            }
-        }
-        if (count == n) {
-            break;
-        }
-    } // asldkfjalskdjf doesnt work, too slow je pense
+    // while (true) {
+    //     count = n;
+    //     for (int i= 0; i < n; i++) {
+    //         if (adj[i].size() == 1 && ar[i] == false) {
+    //             set<int>::iterator it;
+    //             int first;
+    //             for (it = adj[i].begin(); it != adj[i].end(); it++){
+    //                 first = *it;
+    //             }
+    //             // if (ar[first] == false) {
+    //             adj[first].erase(i);
+    //             adj[i].erase(first);
+    //             count--;
+    //             // }
+    //         }
+    //     }
+    //     if (count == n) {
+    //         break;
+    //     }
+    // } // asldkfjalskdjf doesnt work, too slow je pense
     vis[0] = true;
     int newnode = dfs(0).first;
     for (int i = 0; i < n; i++){
