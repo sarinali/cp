@@ -7,14 +7,20 @@ int n,m;
 bool ar[100000];
 bool vis[100000];
 int dis[100000];
+int nodecount;
 set<int> adj[100000];
+void check() {
+    
+}
 pi dfs(int node) {
     pi max = make_pair(node, 0);
     stack<int> s;
     s.push(node);
+    nodecount = 0;
     while (!s.empty()) {
         int cur = s.top();
         s.pop();
+        nodecount++;
         set<int>::iterator it;
         for (it = adj[cur].begin(); it != adj[cur].end(); it++){
             if (!vis[*it]) {
@@ -53,17 +59,17 @@ int main() {
                 for (it = adj[i].begin(); it != adj[i].end(); it++){
                     first = *it;
                 }
-                if (ar[first] == false) {
-                    adj[first].erase(i);
-                    adj[i].erase(first);
-                    count--;
-                }
+                // if (ar[first] == false) {
+                adj[first].erase(i);
+                adj[i].erase(first);
+                count--;
+                // }
             }
         }
         if (count == n) {
             break;
         }
-    }
+    } // asldkfjalskdjf doesnt work, too slow je pense
     vis[0] = true;
     int newnode = dfs(0).first;
     for (int i = 0; i < n; i++){
@@ -72,7 +78,8 @@ int main() {
     }    
     vis[newnode] = true;
     int diameter = dfs(newnode).second;
-    // cout << diameter << endl;
+    cout << (((nodecount) *2) - diameter) -2<< endl;
+    // cout << << endl;
     // for (int i = 0;i < n; i++) {
     //     cout << i << " ";
     //     set<int>::iterator it;
