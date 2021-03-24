@@ -53,9 +53,9 @@ int far (int node) {
             set<int>::iterator it;
             for (it = adj[cur].begin(); it != adj[cur].end(); it++){
                 if (!vis[*it]) {
-						queue.push_back(*it);
-						vis[*it]=true;
-						last=*it;
+                    queue.push_back(*it);
+                    vis[*it]=true;
+                    last=*it;
 				}
             }
         }
