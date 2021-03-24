@@ -1,44 +1,67 @@
 #include <iostream>
 #include <set>
 #include <stack>
+#include <list>
 using namespace std;
-typedef pair<int, int> pi; 
 int n,m;
 bool ar[100000];
 bool vis[100000];
 int dis[100000];
-int nodecount;
-pi d = make_pair(0, 0);
+int numberOfPrune;
+int diameter;
+int firstpho;
 set<int> adj[100000];
-void prune(int node) {
-    if (!ar[node] && adj[node].size() == 1) {
-        set<int>::iterator it;
+
+void prune() {
+    list<int> queue;
+    for (int i=0;i<n;++i){
+        if (adj[i].size() == 1 && !ar[i]) {
+            queue.push_back(i);
+        }
+    }
+    while (!queue.empty())    {
+        int leaf = queue.front();
+        queue.pop_front();
         int first;
-        for (it = adj[node].begin(); it != adj[node].end(); it++){
+        set<int>::iterator it;
+        for (it = adj[leaf].begin(); it != adj[leaf].end(); it++){
             first = *it;
         }
-        int nxt = first;
-        adj[first].erase(node);
-        adj[node].erase(first);
-        prune(nxt);
-    }
-    return;
-}
-pi dfs(pi cur) {
-    int c = cur.first;
-    set<int>::iterator it;
-    for (it = adj[c].begin(); it != adj[c].end(); it++){
-        if (!vis[*it]) {
-            vis[*it] = true;
-            dis[*it] = dis[c] +1;
-            if (dis[*it] > d.second) {
-                d.first = *it;
-                d.second = dis[*it];
-            }
-            pi nxt = make_pair(*it, dis[*it]);
+        int parent = first;
+        // int parent = adj[leaf];
+        adj[parent].erase(leaf);
+        adj[leaf].erase(parent);
+        numberOfPrune++;
+        if (adj[parent].size() ==1 && !ar[parent]){
+            queue.push_back(parent);
         }
     }
-    return d;
+}
+
+int far (int node) {
+    list<int> queue;
+    queue.push_back(node);
+    vis[node]=true;
+    int last=0;
+    int count=0;
+    while (!queue.empty()) {
+        int size = queue.size();
+        count++;
+        for (int j=0;j<size;j++) {
+            int cur = queue.front();
+            queue.pop_front();
+            set<int>::iterator it;
+            for (it = adj[cur].begin(); it != adj[cur].end(); it++){
+                if (!vis[*it]) {
+						queue.push_back(*it);
+						vis[*it]=true;
+						last=*it;
+				}
+            }
+        }
+    }
+    diameter=count;
+    return last;
 }
 int main() {
     cin >> n >> m;
@@ -46,6 +69,7 @@ int main() {
         int x;
         cin >> x;
         ar[x] = true;
+        firstpho=x;
     }
     for (int i =0; i < n-1; i++) {
         int x, y;
@@ -53,38 +77,19 @@ int main() {
         adj[x].insert(y);
         adj[y].insert(x);
     }
-    int count;
     
+    prune();
+    
+    int a = far(firstpho);
     for (int i = 0; i < n; i++) {
-        prune(i);
-    }
-
-    vis[0] = true;
-    dis[0] = 1;
-    int newnode = dfs(d).first;
-    for (int i = 0; i < n; i++){
         vis[i] = false;
-        dis[i] = 0;
     }
-    vis[newnode] = true;
-    dis[newnode] = 1;
-    int diameter = dfs(d).second;
-    for (int i = 0; i < n; i++) {
-        if (adj[i].size() > 0) {
-            nodecount++;
-        }
-    }
-    // cout << diameter <<endl;
-    cout << ((nodecount *2) - diameter)<< endl;
-    // cout << nodecount << endl;
-    // for (int i = 0;i < n; i++) {
-    //     cout << i << " ";
-    //     set<int>::iterator it;
-    //     for (it = adj[i].begin(); it != adj[i].end(); it++) {
-    //         cout << *it << " ";
-    //     }
-    //     cout << endl;
-    // }
+    int b = far(a);
 
+    int numNodes =  n - numberOfPrune;
+
+    cout << (numNodes*2)-diameter-1<< endl;
+    // cout << numNodes<< endl;
+    // cout << diameter << endl;
     return 0;
 }
