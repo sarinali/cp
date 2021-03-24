@@ -8,33 +8,37 @@ bool ar[100000];
 bool vis[100000];
 int dis[100000];
 int nodecount;
+pi d = make_pair(0, 0);
 set<int> adj[100000];
-void check() {
-
-}
-pi dfs(int node) {
-    pi max = make_pair(node, 0);
-    stack<int> s;
-    s.push(node);
-    nodecount = 0;
-    while (!s.empty()) {
-        int cur = s.top();
-        s.pop();
-        nodecount++;
+void prune(int node) {
+    if (!ar[node] && adj[node].size() == 1) {
         set<int>::iterator it;
-        for (it = adj[cur].begin(); it != adj[cur].end(); it++){
-            if (!vis[*it]) {
-                s.push(*it);
-                vis[*it] = true;
-                dis[*it] = dis[cur] +1;
-                if (dis[*it] > max.second) {
-                    max.first = *it;
-                    max.second = dis[*it];
-                }
+        int first;
+        for (it = adj[node].begin(); it != adj[node].end(); it++){
+            first = *it;
+        }
+        int nxt = first;
+        adj[first].erase(node);
+        adj[node].erase(first);
+        prune(nxt);
+    }
+    return;
+}
+pi dfs(pi cur) {
+    int c = cur.first;
+    set<int>::iterator it;
+    for (it = adj[c].begin(); it != adj[c].end(); it++){
+        if (!vis[*it]) {
+            vis[*it] = true;
+            dis[*it] = dis[c] +1;
+            if (dis[*it] > d.second) {
+                d.first = *it;
+                d.second = dis[*it];
             }
+            pi nxt = make_pair(*it, dis[*it]);
         }
     }
-    return max;
+    return d;
 }
 int main() {
     cin >> n >> m;
@@ -50,39 +54,29 @@ int main() {
         adj[y].insert(x);
     }
     int count;
-    // while (true) {
-    //     count = n;
-    //     for (int i= 0; i < n; i++) {
-    //         if (adj[i].size() == 1 && ar[i] == false) {
-    //             set<int>::iterator it;
-    //             int first;
-    //             for (it = adj[i].begin(); it != adj[i].end(); it++){
-    //                 first = *it;
-    //             }
-    //             // if (ar[first] == false) {
-    //             adj[first].erase(i);
-    //             adj[i].erase(first);
-    //             count--;
-    //             // }
-    //         }
-    //     }
-    //     if (count == n) {
-    //         break;
-    //     }
-    // } 
     
-    // asldkfjalskdjf doesnt work, too slow je pense je vais fixer
-    // audjourd'hui
+    for (int i = 0; i < n; i++) {
+        prune(i);
+    }
+
     vis[0] = true;
-    int newnode = dfs(0).first;
+    dis[0] = 1;
+    int newnode = dfs(d).first;
     for (int i = 0; i < n; i++){
         vis[i] = false;
-        dis[i] = false;
-    }    
+        dis[i] = 0;
+    }
     vis[newnode] = true;
-    int diameter = dfs(newnode).second;
-    cout << (((nodecount) *2) - diameter) -2<< endl;
-    // cout << << endl;
+    dis[newnode] = 1;
+    int diameter = dfs(d).second;
+    for (int i = 0; i < n; i++) {
+        if (adj[i].size() > 0) {
+            nodecount++;
+        }
+    }
+    // cout << diameter <<endl;
+    cout << ((nodecount *2) - diameter)<< endl;
+    // cout << nodecount << endl;
     // for (int i = 0;i < n; i++) {
     //     cout << i << " ";
     //     set<int>::iterator it;
