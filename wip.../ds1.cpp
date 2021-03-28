@@ -3,7 +3,7 @@ using namespace std;
 int n, m;
 const int M = 10e5;
 long long bit[M+1]; long long ar[M+1]; long long freq[M+1];
-// need something to store the count? ill worry ab that later
+
 long long sum(int start, int end) {
     long long sum, sumstart,sumend = 0;
     while (start>0) {
@@ -17,34 +17,39 @@ long long sum(int start, int end) {
     sum = sumend - sumstart;
     return sum;
 }
+void freqc(long long ind, int change){
+    // int freqval = ar[ind];
+    while (ind<=n) {
+        freq[ind]+=change;
+        ind+=(ind&-ind);
+    }
+    return;
+}
 void change(long long ind, long long val) {
-    while (ind <= M){
-        bit[ind] += val;
-        // the right most 1 
+   int dif = val - ar[ind];
+   int change;
+   if (val > ar[ind-1]){
+       change = -1;
+   } else if (val == ar[ind-1]){
+       change =0;
+   } else {
+       change = 1;
+   }
+   ar[ind] = val;
+   freqc(val,change);
+   while (ind <= n){
+        bit[ind] += dif;
+        // the left most 1 (LSB)
         ind += (ind&-ind);
     }
     return;
 }
-void freqc(long long ind){
-    int val = ar[ind];
-    while (val<=M) {
-        freq[val]++;
-        val = (val&-val);
-    }
-    return;
-}
 long long freqcount(long long ind){
-    long long sum, sumstart,sumend = 0;
+    long long sum = 0;
     while (ind>0) {
-        sumstart += bit[ind];
+        sum += freq[ind];
         ind -= (ind&-ind);
     }
-    long long newind = ind-1;
-    while (newind>0) {
-        sumend += bit[newind];
-        newind -= (newind&-newind);
-    }
-    sum = sumend - sumstart;
     return sum;
 }
 int main(){
@@ -53,11 +58,15 @@ int main(){
         cin >> ar[i];
     }
     for (int i=0;i<n;++i) {
-        int ind = i+1;
-        // construct it from bottom up ish? 
+        int ind = i+1; 
         while (ind<=n){ 
             bit[ind] += ar[i];
             ind += (ind&-ind);
+        }
+        int cur = ar[i];
+        while (cur <=n){
+            freq[cur]++;
+            cur += (cur&-cur);
         }
     }
     for (int i=0;i<m;++i){
@@ -71,7 +80,7 @@ int main(){
             change(x, y);
             // freqc(x);
         } else {
-            // cout << freqcount(x) << endl;
+            cout << freqcount(x) << endl;
         }
     }
     return 0;
