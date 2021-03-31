@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class towers {
+public class mwc15c2p2 {
 	static ArrayList<Integer> ar;
 	static int[] build;
 	static Stack<Integer> s;

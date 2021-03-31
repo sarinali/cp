@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class coin10 {
+public class cchange {
 	static int n; 
 	static int ar[];
 	static int v;

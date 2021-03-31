@@ -1,11 +1,11 @@
 #include <iostream>
 using namespace std;
 int n, m;
-const int M = 10e5;
+const int M = 1e5;
 long long bit[M+1]; long long ar[M+1]; long long freq[M+1];
 
 long long sum(int start, int end) {
-    long long sum, sumstart,sumend = 0;
+    long long sum= 0; long long sumstart = 0; long long sumend = 0;
     while (start>0) {
         sumstart += bit[start];
         start -= (start&-start);
@@ -17,26 +17,30 @@ long long sum(int start, int end) {
     sum = sumend - sumstart;
     return sum;
 }
-void freqc(long long ind, int change){
+void freqc(long long ind){
     // int freqval = ar[ind];
-    while (ind<=n) {
-        freq[ind]+=change;
+    while (ind<=M) {
+        freq[ind]++;
         ind+=(ind&-ind);
     }
     return;
 }
 void change(long long ind, long long val) {
-   int dif = val - ar[ind];
-   int change;
-   if (val > ar[ind-1]){
-       change = -1;
-   } else if (val == ar[ind-1]){
-       change =0;
-   } else {
-       change = 1;
+   long long dif = val - ar[ind];
+   long long first = ar[ind];
+   while (first <= M) {
+       freq[first]--;
+       first+=first&-first;
    }
+//    if (val > ar[ind-1]){
+//        change = -1;
+//    } else if (val == ar[ind-1]){
+//        change =0;
+//    } else {
+//        change = 1;
+//    }
    ar[ind] = val;
-   freqc(val,change);
+   freqc(val);
    while (ind <= n){
         bit[ind] += dif;
         // the left most 1 (LSB)
@@ -54,17 +58,17 @@ long long freqcount(long long ind){
 }
 int main(){
     cin >> n >> m;
-    for (int i=0;i < n;++i) {
+    for (int i=1;i <= n;++i) {
         cin >> ar[i];
     }
-    for (int i=0;i<n;++i) {
-        int ind = i+1; 
+    for (int i=1;i<=n;++i) {
+        int ind = i;
         while (ind<=n){ 
             bit[ind] += ar[i];
             ind += (ind&-ind);
         }
-        int cur = ar[i];
-        while (cur <=n){
+        long cur = ar[i];
+        while (cur<=M){
             freq[cur]++;
             cur += (cur&-cur);
         }
