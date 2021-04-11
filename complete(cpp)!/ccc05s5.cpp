@@ -14,7 +14,7 @@ set <int, greater <int> > s;
 unordered_map <int, int> map;
 void change(int ind) {
     while (ind <= n) {
-        bit[ind] += ar[ind];
+        bit[ind]++;
         ind+=ind&-ind;
     }
 }
