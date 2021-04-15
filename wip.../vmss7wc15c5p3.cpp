@@ -5,7 +5,7 @@ const int M = 2*1e3+5;
 int n;
 const int MOD = 1e9+7;
 ll sum;
-int BIT[M][M];
+ll BIT[M][M];
 ll findsum(int r, int c) {
     ll cursum = 0;
     int ind = r;
@@ -33,9 +33,10 @@ int main() {
             update(r, c, t);
         } else if (op == 2) {
             cin >> r >> c >> t;
-            sum += findsum(r, c)-findsum(r, c-t-1);
+            sum += findsum(r, c)-findsum(r, c-t-1)%MOD;
         }
     }
+    // wa lmfaooooo : ( 
     printf("%lld\n", sum%MOD);
     return 0;
 }
