@@ -8,10 +8,10 @@ ll sum;
 ll BIT[M][M];
 ll findsum(int r, int c) {
     ll cursum = 0;
-    int ind = r;
+    int ind = c;
     while (ind>0) {
-        cursum += BIT[r+c][ind];
-        ind -= ind&-ind;
+        cursum += BIT[r][ind];
+        ind-=ind&-ind;
     }
     return cursum;
 }
@@ -33,10 +33,10 @@ int main() {
             update(r, c, t);
         } else if (op == 2) {
             cin >> r >> c >> t;
-            sum += findsum(r, c)-findsum(r, c-t-1)%MOD;
+            sum += findsum(r+c, r)-findsum(r+c, r-t-1)%MOD;
         }
     }
-    // wa lmfaooooo : ( 
+    // SOMEHOW WORKS.
     printf("%lld\n", sum%MOD);
     return 0;
 }

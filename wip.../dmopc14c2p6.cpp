@@ -1,49 +1,66 @@
 #include <iostream>
 #include <list>
+#include <vector>
+#include <algorithm>
 using namespace std;
+typedef pair<int, int> p;
 typedef long long ll;
+struct tri { 
+    int first, second, third; 
+}; 
+struct tri_comp {
+    bool operator()(tri const& lhs, tri const& rhs) const {
+    return lhs.third > rhs.third;
+    }
+};
 const int M = 1e5;
-int bit[M+1], ar[M+1], n, t;
-list<int> query;
+vector<p> v;
+vector<tri> query;
+ll BIT[M+2];
+list<int> posq;
+int n, t;
+void update(int ind, int num) {
+    while (ind <= n) {
+        BIT[ind] += num;
+        ind += ind&-ind;
+    }
+    return;
+}
 ll sum(int l) {
     ll cursum = 0;
-    while (l>0) {
-        cursum+=bit[l];
-        l-=l&-l;
+    while (l >0) {
+        cursum += BIT[l];
+        l -= l&-l;
     }
     return cursum;
 }
 int main() {
     cin >> n;
-    for (int i = 1; i <= n; i++) {
-        cin >> ar[i];
+    for (int i = 0; i < n; i++) {
+        int x; 
+        cin >> x;
+        p cur = make_pair(x, i);
+        v.push_back(cur);
     }
+    sort(v.begin(), v.end(), greater<p>());
     cin >> t;
-    int min = M;
     for (int i = 0; i < t; i++) {
-        int x, y, h;
-        cin >> x >> y >> h;
-        query.push_back(x);
-        query.push_back(y);
-        if (h < min) {
-            min = h;
-        }
+        int a, b, q;
+        cin >> a >> b >> q;
+        tri cur = {a, b, q};
+        query.push_back(cur);
     }
-    for (int i = 1; i <= n; i++) {
-        int ind = i;
-        while (ind <= n) {
-            if (ar[i] >= min) {
-                bit[ind] += ar[i];
-                ind += ind&-ind;
+    sort(query.begin(), query.end(), tri_comp());
+    int j = 0;
+    for (int i = 0; i < query.size(); i++) {
+        int mx = query.at(i).third;
+        for (int k = j; k < v.size(); k++) {
+            if (v.at(k).first < mx) {
+                update(v.at(k).second, v.at(k).first+1);
+                cout << sum(query.at(i).second) - sum(query.at(i).first-1) << endl;
             }
+            j++;
         }
-    }
-    for (int i = 0; i < t; i++) {
-        int x = query.front();
-        query.pop_front();
-        int y = query.front();
-        query.pop_front();
-        printf("%lld\n", sum(y+1) - sum(x));
     }
     return 0;
 }
