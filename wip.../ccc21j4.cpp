@@ -1,5 +1,6 @@
-#include <iostream>
-#include <string.h>
+// #include <iostream>
+// #include <string.h>
+#include <bits/stdc++.h>
 using namespace std;
 // not too sure rn, will do this
 string s;

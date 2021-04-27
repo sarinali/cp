@@ -24,6 +24,7 @@ void update(int r, int c, int t) {
     return;
 }
 int main() {
+    cin.tie(0); cin.sync_with_stdio(0);
     cin >> n;
     for (int i = 0; i < n; i++) {
         int op, r, c, t;

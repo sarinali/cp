@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 // prob could be more efficient :( 
 // ill think of something one day
