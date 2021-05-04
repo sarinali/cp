@@ -39,13 +39,6 @@ int main() {
         penc[z] = zcost;
         temp.push_back(z);
     }
-    // for (int i = 0; i < k; i++) {
-    //     for (int j = 0; i< adj[temp.at(i)].size(); j++) {
-    //         if (penc[j] == 0) {
-    //             penc[j] = penc[temp.at(i)];
-    //         }
-    //     }
-    // }
     scanf("%d", &dest);
     pi src = make_pair(0, dest);
     dis[dest] = 0;
