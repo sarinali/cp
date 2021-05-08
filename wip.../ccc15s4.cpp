@@ -14,7 +14,6 @@ const int M = 1e5;
 vector<t> adj[M+1];
 int dis[M+1][201];
 int hs[M+1];
-bool vis[M+1];
 priority_queue<t, vector<t>, tc> pq; 
 int a, b, roads, nodes, hull;
 int main() {
@@ -28,17 +27,17 @@ int main() {
         adj[from].push_back(cur);
         adj[to].push_back(cur1);
     }
-    for (int i = 0; i <= nodes; i++) {
-        for (int j = 0; j <= hull; j++) {
+    for (int i = 0; i <= hull; i++) {
+        for (int j = 0; j <= nodes; j++) {
             dis[i][j] = INT_MAX;
         }
     }
     cin >> a >> b;
-    dis[a][hull] = 0;
+    dis[hull][a] = 0;
     hs[a] = hull;
     t start = {a, 0, 0};
-    vis[a] = true;
     pq.push(start);
+    // int count = 0;
     while (!pq.empty()) {
         t cur = pq.top();
         int node = cur.to;
@@ -47,22 +46,38 @@ int main() {
             break;
         }
         int dest = cur.to;  
+        // cout << node << endl;
+        // for (int i = 1; i <= nodes; i++) {
+        //     cout << hs[i] << " ";
+        // }
+        // cout << endl;
         for (int i = 0; i < adj[dest].size(); i++) {
             int nxt = adj[dest].at(i).to;
             int cost = adj[dest].at(i).time;
             int hw = adj[dest].at(i).cm;
-            if (hs[node] - hw > 0 && dis[nxt][hs[node]-hw] > dis[node][hs[node]] + cost && !vis[nxt]) {
-                dis[nxt][hs[node]-hw] = dis[node][hs[node]] + cost;
+            if (hs[node] - hw > 0 && dis[hs[node]-hw][nxt] > dis[hs[node]][node] + cost) {
+                dis[hs[node]-hw][nxt] = dis[hs[node]][node] + cost;
                 hs[nxt] = hs[node] - hw;
-                vis[nxt]= true;
                 pq.push(adj[dest].at(i));
+                // cout << adj[dest].at(i).to << " " << adj[dest].at(i).time << " " << adj[dest].at(i).cm << endl;
             }
         }
     }
-    if (dis[b][hs[b]] == INT_MAX) {
-        cout << -1 << endl;
-    }else {
-        cout << dis[b][hs[b]] << endl;
-    }
+    // if (dis[hs[b]][b] == INT_MAX) {
+    //     cout << -1 << endl;
+    // }else {
+    //     cout << dis[hs[b]][b] << endl;
+    // }
+    // for (int i = 1; i <= hull; i++) {
+    //     cout << i << ": ";
+    //     for (int j = 1; j <= nodes; j++) {
+    //         if (dis[i][j] == INT_MAX) {
+    //             cout << 0 << " ";
+    //         } else {
+    //             cout << dis[i][j] << " ";
+    //         }
+    //     }
+    //     cout << endl;
+    // }
     return 0;
 }
