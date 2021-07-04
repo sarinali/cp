@@ -4,11 +4,15 @@ int k;
 int main() {
     cin.tie(0); cin.sync_with_stdio(0);
     cin >> k;
-    // int count = 2;
-    cout << k+1 << " " <<  k*2 << endl;
-    for (int i = 2; i < k+2; i++) {
-        cout << 1 << " " << i << endl;
-        cout << i << " " << 1 << endl;
+    // partial mark
+    cout << k*2 << " " << k*2+k-1 << endl;
+    // n(n-1)/2
+    for (int i = 1; i <= k*2; i+=2) {
+        cout << i << " " << i+1 << endl;
+        cout << i << " " << i+1 << endl;
+        if (i+1 < k*2) {
+            cout << i+1 << " " << i+2 << endl;
+        }
     }
     return 0;
 }
